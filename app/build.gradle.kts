@@ -54,6 +54,7 @@ dependencies {
     implementation (libs.retrofitGsonConverter)
     implementation(libs.okHttp)
     implementation(libs.okHttp.interceptor)
+    implementation (libs.retrofit.adapters.result)
 
 //    JSON
     implementation (libs.gson)
