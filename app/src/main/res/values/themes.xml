@@ -1,9 +1,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.GoSportTest" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">@color/app_red</item>
+        <item name="textAllCaps">false</item>
     </style>
 
     <style name="Theme.GoSportTest" parent="Base.Theme.GoSportTest" />
+
+    <style name="app_bottom_bar_style">
+        <item name="itemTextColor">@color/selector_color_icon_bottom_menu</item>
+        <item name="itemIconSize">24dp</item>
+        <item name="elevation">6dp</item>
+        <item name="android:outlineAmbientShadowColor">@color/black</item>
+        <item name="android:background">@color/white</item>
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="itemTextAppearanceActive">@style/caption</item>
+        <item name="itemTextAppearanceInactive">@style/caption</item>
+        <item name="itemActiveIndicatorStyle">@android:color/transparent</item>
+        <item name="itemHorizontalTranslationEnabled">false</item>
+        <item name="itemIconTint">@color/selector_color_icon_bottom_menu</item>
+        <item name="itemRippleColor">@android:color/transparent</item>
+    </style>
+
 </resources>

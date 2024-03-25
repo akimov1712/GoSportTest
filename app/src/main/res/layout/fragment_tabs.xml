@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".presentation.screens.tabs.TabsFragment">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/tabs_fragment_container"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/tabs_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/tabs_bottom_view"
+        style="@style/app_bottom_bar_style"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@color/app_light_grey"
+        app:menu="@menu/tabs_menu"/>
+
+</LinearLayout>

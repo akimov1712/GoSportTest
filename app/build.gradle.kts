@@ -52,8 +52,8 @@ dependencies {
 //    RemoteSource
     implementation (libs.retrofit)
     implementation (libs.retrofitGsonConverter)
-    implementation(libs.okHttp)
-    implementation(libs.okHttp.interceptor)
+    implementation (libs.okHttp)
+    implementation (libs.okHttp.interceptor)
     implementation (libs.retrofit.adapters.result)
 
 //    JSON
@@ -67,13 +67,13 @@ dependencies {
     implementation (libs.glide)
 
 //    Navigation
-    implementation(libs.navigationFragment)
-    implementation(libs.navigationUi)
+    implementation (libs.navigationFragment)
+    implementation (libs.navigationUi)
 
 //    Room
-    implementation(libs.roomRuntime)
-    ksp(libs.roomCompiler)
-    implementation(libs.roomKtx)
+    implementation (libs.roomRuntime)
+    ksp (libs.roomCompiler)
+    implementation (libs.roomKtx)
 
 //    ViewModel
     implementation (libs.viewModelLifecycle)
