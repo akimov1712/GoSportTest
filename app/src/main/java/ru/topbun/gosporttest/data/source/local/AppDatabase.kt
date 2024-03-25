@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import ru.topbun.gosporttest.data.source.local.dao.CategoryDao
+import ru.topbun.gosporttest.data.source.local.dao.FoodDao
 import ru.topbun.gosporttest.data.source.local.entitise.CategoryDBO
 import ru.topbun.gosporttest.data.source.local.entitise.FoodDBO
 
@@ -12,6 +14,9 @@ import ru.topbun.gosporttest.data.source.local.entitise.FoodDBO
     CategoryDBO::class
 ], version = 1)
 abstract class AppDatabase: RoomDatabase() {
+
+    abstract fun categoryDao(): CategoryDao
+    abstract fun foodDao(): FoodDao
 
     companion object{
 
