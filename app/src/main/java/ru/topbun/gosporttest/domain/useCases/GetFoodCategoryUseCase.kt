@@ -1,6 +1,5 @@
 package ru.topbun.gosporttest.domain.useCases
 
-import ru.topbun.gosporttest.domain.repository.CategoryRepository
 import ru.topbun.gosporttest.domain.repository.FoodRepository
 
 class GetFoodCategoryUseCase(
