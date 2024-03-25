@@ -5,5 +5,6 @@ data class FoodEntity(
     val title: String,
     val descr: String,
     val category: String,
+    val image: String,
     val price: Int
 )
