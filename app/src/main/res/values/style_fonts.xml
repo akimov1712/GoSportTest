@@ -7,4 +7,9 @@
         <item name="android:fontFamily">@font/inter_medium</item>
     </style>
 
+    <style name="text_chip">
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">@font/inter_semi_bold</item>
+    </style>
+
 </resources>

@@ -18,6 +18,6 @@ interface CategoryDao {
     suspend fun deleteCategory()
 
     @Query("SELECT * FROM category")
-    fun getCategoryList(): Flow<List<CategoryDBO>>
+     fun getCategoryList(): Flow<List<CategoryDBO>>
 
 }

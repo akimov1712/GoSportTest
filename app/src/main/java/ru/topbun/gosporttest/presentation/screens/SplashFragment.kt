@@ -2,11 +2,13 @@ package ru.topbun.gosporttest.presentation.screens
 
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.topbun.gosporttest.databinding.FragmentSplashBinding
 import ru.topbun.gosporttest.presentation.base.BaseFragment
 
+@AndroidEntryPoint
 class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding::inflate) {
 
     override fun setViews() {

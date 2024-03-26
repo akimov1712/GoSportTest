@@ -12,7 +12,6 @@ data class CategoryDBO(
 ){
     fun toEntity() = CategoryEntity(
         id = id,
-        name = name,
-        selected = false
+        name = name
     )
 }

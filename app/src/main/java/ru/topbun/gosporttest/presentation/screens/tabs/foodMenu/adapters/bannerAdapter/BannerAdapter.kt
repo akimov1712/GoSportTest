@@ -11,6 +11,7 @@ class BannerAdapter: RecyclerView.Adapter<BannerAdapter.BannerViewHolder>() {
     var itemList = listOf<Int>()
         set(value){
             field = value
+            // rv не очень нагруженный, поэтому такая реализация приемлема. В другом случае используется ListAdapter
             notifyDataSetChanged()
         }
 

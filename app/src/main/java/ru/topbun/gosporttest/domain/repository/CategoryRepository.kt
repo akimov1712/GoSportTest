@@ -6,6 +6,6 @@ import ru.topbun.gosporttest.domain.entities.CategoryEntity
 
 interface CategoryRepository {
 
-    suspend fun getCategoryList(): Flow<RequestResult>
+    suspend fun getCategoryList(): Flow<RequestResult<List<CategoryEntity>>>
 
 }

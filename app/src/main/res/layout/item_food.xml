@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F3F5F9"/>
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="16dp"/>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_preview"
+            android:layout_width="135dp"
+            android:layout_height="135dp"
+            android:src="@drawable/test"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="0dp"/>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:fontFamily="@font/inter_semi_bold"
+                android:textSize="16sp"
+                tools:text="Ветчина и грибы"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="8dp"/>
+
+            <TextView
+                android:id="@+id/tv_descr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_grey"
+                android:fontFamily="@font/inter_regular"
+                android:textSize="14sp"
+                android:maxLines="3"
+                tools:text="Ветчина,шампиньоны, увеличинная порция моцареллы, томатный соус"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="8dp"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="8dp"
+                    android:layout_weight="3"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_buy"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/app_red"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/inter_regular"
+                    android:background="@drawable/background_button_outline"
+                    android:text="от 345 р"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="16dp"/>
+
+</LinearLayout>

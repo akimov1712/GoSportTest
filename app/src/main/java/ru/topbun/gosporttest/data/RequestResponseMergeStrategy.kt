@@ -1,57 +1,62 @@
 package ru.topbun.gosporttest.data
 
+import android.util.Log
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.lastOrNull
 import ru.topbun.gosporttest.domain.RequestResult
 import javax.inject.Inject
 
-interface MergeStrategy {
-    fun merge(cache: RequestResult, server: RequestResult): RequestResult
+interface MergeStrategy<E> {
+    fun <E> merge(cache: RequestResult<E>, server: RequestResult<E>): RequestResult<E>
 }
 
-class RequestResponseMergeStrategy @Inject constructor(): MergeStrategy{
 
-    override fun merge(cache: RequestResult, server: RequestResult): RequestResult {
+class RequestResponseMergeStrategy<E> @Inject constructor(): MergeStrategy<E> {
+    override fun <E> merge(
+        cache: RequestResult<E>,
+        server: RequestResult<E>
+    ): RequestResult<E> {
         return when{
-            cache is RequestResult.InProgress<*> && server is RequestResult.InProgress<*> ->
+            cache is RequestResult.Success<E> && server is RequestResult.Success<E> ->
                 merge(cache, server)
-            cache is RequestResult.Success<*> && server is RequestResult.InProgress<*> ->
+            cache is RequestResult.Success<E> && server is RequestResult.Error<*> ->
                 merge(cache, server)
-            cache is RequestResult.InProgress<*> && server is RequestResult.Success<*> ->
+            cache is RequestResult.Error<*> && server is RequestResult.Success<E> ->
                 merge(cache, server)
-            cache is RequestResult.InProgress<*> && server is RequestResult.Error ->
-                merge(cache, server)
-            else -> error("Unimplemented branch")
+            cache is RequestResult.Error<*> && server is RequestResult.Error<*> ->
+                merge(cache, server as RequestResult.Error<*>)
+            else -> {
+                error("Unimplemented branch")
+            }
         }
     }
 
-    private fun merge(
-        cache: RequestResult.InProgress<*>,
-        server: RequestResult.InProgress<*>
-    ): RequestResult {
-        return when {
-            server.data != null -> RequestResult.InProgress(server.data)
-            else -> RequestResult.InProgress(cache.data)
-        }
+    private fun <E>merge(
+        cache: RequestResult.Success<E>,
+        server: RequestResult.Success<E>
+    ): RequestResult<E> {
+        return RequestResult.Success(server.data)
     }
 
-    private fun merge(
-        cache: RequestResult.Success<*>,
-        server: RequestResult.InProgress<*>
-    ): RequestResult {
-        return RequestResult.InProgress(cache.data)
+    private fun <E>merge(
+        cache: RequestResult.Success<E>,
+        server: RequestResult.Error<*>
+    ): RequestResult<E> {
+        return RequestResult.Success(cache.data)
     }
 
-    private fun merge(
-        cache: RequestResult.InProgress<*>,
-        server: RequestResult.Success<*>
-    ): RequestResult {
-        return RequestResult.InProgress(server.data)
+    private fun <E>merge(
+        cache: RequestResult.Error<*>,
+        server: RequestResult.Success<E>
+    ): RequestResult<E> {
+        return RequestResult.Success(server.data)
     }
 
-    private fun merge(
-        cache: RequestResult.InProgress<*>,
-        server: RequestResult.Error
-    ): RequestResult {
-        return RequestResult.InProgress(cache.data)
+    private fun <E>merge(
+        cache: RequestResult.Error<*>,
+        server: RequestResult.Error<*>
+    ): RequestResult<E> {
+        return RequestResult.Error("Нет интернет соединения")
     }
 
 }

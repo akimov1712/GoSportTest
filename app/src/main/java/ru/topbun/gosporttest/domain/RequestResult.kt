@@ -2,10 +2,9 @@ package ru.topbun.gosporttest.domain
 
 import kotlin.math.E
 
-sealed class RequestResult {
+sealed class RequestResult<E> {
 
-    class InProgress<E>(val data: E): RequestResult()
-    class Success<E>(val data: E): RequestResult()
-    class Error(val message: String = "Возникла непредвиденная ошибка!"): RequestResult()
+    class Success<E>(val data: E): RequestResult<E>()
+    class Error<E>(val message: String = "Возникла непредвиденная ошибка!"): RequestResult<E>()
 
 }

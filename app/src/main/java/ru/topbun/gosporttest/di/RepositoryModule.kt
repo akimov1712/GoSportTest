@@ -2,8 +2,11 @@ package ru.topbun.gosporttest.di
 
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ru.topbun.gosporttest.data.MergeStrategy
+import ru.topbun.gosporttest.data.RequestResponseMergeStrategy
 import ru.topbun.gosporttest.data.repositories.CategoryRepositoryImpl
 import ru.topbun.gosporttest.data.repositories.FoodRepositoryImpl
 import ru.topbun.gosporttest.domain.repository.CategoryRepository

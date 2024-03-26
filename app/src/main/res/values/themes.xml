@@ -3,6 +3,7 @@
     <style name="Base.Theme.GoSportTest" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:statusBarColor">@color/app_red</item>
         <item name="textAllCaps">false</item>
+        <item name="chipStyle">@style/app_chip_style</item>
     </style>
 
     <style name="Theme.GoSportTest" parent="Base.Theme.GoSportTest" />
@@ -20,6 +21,21 @@
         <item name="itemHorizontalTranslationEnabled">false</item>
         <item name="itemIconTint">@color/selector_color_icon_bottom_menu</item>
         <item name="itemRippleColor">@android:color/transparent</item>
+    </style>
+
+    <style name="app_chip_style" parent="@style/Widget.Material3.Chip.Input">
+        <item name="android:textColor">@color/selector_color_text_chip</item>
+        <item name="android:textAppearance">@style/text_chip</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="closeIconVisible">false</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="android:checked">false</item>
+        <item name="android:elevation">4dp</item>
+        <item name="closeIconEnabled">false</item>
+        <item name="closeIconTint">@color/selector_color_text_chip</item>
+        <item name="chipBackgroundColor">@color/selector_color_checked_chip</item>
     </style>
 
 </resources>

@@ -6,8 +6,8 @@ import ru.topbun.gosporttest.domain.entities.FoodEntity
 
 interface FoodRepository {
 
-    suspend fun getFoodList(): Flow<RequestResult>
-    suspend fun getFoodCategory(category: String): Flow<RequestResult>
+    suspend fun getFoodList(): Flow<RequestResult<List<FoodEntity>>>
+    suspend fun getFoodCategory(category: String): Flow<RequestResult<List<FoodEntity>>>
 
 
 }

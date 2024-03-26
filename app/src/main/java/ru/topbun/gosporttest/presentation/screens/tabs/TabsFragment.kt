@@ -2,11 +2,13 @@ package ru.topbun.gosporttest.presentation.screens.tabs
 
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.topbun.gosporttest.R
 import ru.topbun.gosporttest.databinding.FragmentTabsBinding
 import ru.topbun.gosporttest.presentation.base.BaseFragment
 
 
+@AndroidEntryPoint
 class TabsFragment : BaseFragment<FragmentTabsBinding>(FragmentTabsBinding::inflate) {
 
     override fun setViews() {

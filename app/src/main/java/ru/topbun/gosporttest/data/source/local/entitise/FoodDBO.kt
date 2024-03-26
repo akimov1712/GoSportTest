@@ -12,7 +12,6 @@ data class FoodDBO(
     val descr: String,
     val category: String,
     val image: String,
-    val price: Int
 ){
     fun toEntity() = FoodEntity(
         id = id,
@@ -20,6 +19,5 @@ data class FoodDBO(
         descr = descr,
         category = category,
         image = image,
-        price = price,
     )
 }

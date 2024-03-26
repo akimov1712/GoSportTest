@@ -2,6 +2,7 @@ package ru.topbun.gosporttest.data.source.remote.entities.food
 
 import com.google.gson.annotations.SerializedName
 import ru.topbun.gosporttest.data.source.local.entitise.FoodDBO
+import ru.topbun.gosporttest.domain.entities.FoodEntity
 import kotlin.random.Random
 
 data class FoodDTO(
@@ -17,6 +18,12 @@ data class FoodDTO(
         descr =  descr,
         category =  category,
         image =  image,
-        price = Random.nextInt(0,500)
+    )
+    fun toEntity() = FoodEntity(
+        id = id,
+        title = title,
+        descr = descr,
+        category = category,
+        image = image,
     )
 }
