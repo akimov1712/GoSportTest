@@ -1,6 +1,8 @@
 package ru.topbun.gosporttest.presentation.screens.tabs.foodMenu
 
+import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -9,6 +11,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import ru.topbun.gosporttest.R
 import ru.topbun.gosporttest.databinding.FragmentFoodMenuBinding
 import ru.topbun.gosporttest.domain.entities.FoodEntity
 import ru.topbun.gosporttest.presentation.base.BaseFragment
@@ -23,55 +26,47 @@ class FoodMenuFragment : BaseFragment<FragmentFoodMenuBinding>(FragmentFoodMenuB
     private val bannerAdapter by lazy { BannerAdapter() }
     private val foodAdapter by lazy { FoodsAdapter() }
 
-    override fun setViews() {
-        super.setViews()
-        setBanner()
-        val testItems = mutableListOf<FoodEntity>().apply{
-            (0..100).forEach {
-                add(
-                    FoodEntity(
-                        it,
-                        "Пицца с сыром$it",
-                        "The answers here are incorrect, although they're on the right track.\n" +
-                                "You need to call Glide#clear(), not just set the image drawable to null. If you don't call clear(), an async load completing out of order may still cause view recycling issues. Your code should look like this:",
-                        "fdsfds",
-                        "https://p2.zoon.ru/7/e/540fbe0940c088c5138f3734_5e2e8b74e2d26.jpg"
-                    )
-                )
-            }
-        }
-        binding.rvFoods.adapter = foodAdapter
-        foodAdapter.submitList(testItems)
-    }
-
     override fun observeViewModel() {
         super.observeViewModel()
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.state.collect {
-                    when (it) {
-                        is FoodMenuState.Loading -> {
-
-                        }
-
-                        is FoodMenuState.ResultCategory -> {
-                            it.category.forEach { chip ->
-                                addChip(
-                                    chip.name,
-                                    binding.chipGroupCategory
-                                )
+        with(binding){
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                    viewModel.state.collect {
+                        hideViewState()
+                        when (it) {
+                            is FoodMenuState.Loading -> {
+                                pbLoader.visibility = View.VISIBLE
                             }
-                        }
 
-                        is FoodMenuState.ErrorGetCategory -> {
-                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                        }
+                            is FoodMenuState.ResultCategory -> {
+                                it.category.forEach { chip ->
+                                    addChip(
+                                        chip.name,
+                                        chipGroupCategory
+                                    )
+                                }
+                            }
 
-                        else -> {}
+                            is FoodMenuState.ResultFoods -> {
+                                rvFoods.visibility = View.VISIBLE
+                                foodAdapter.submitList(it.foods)
+                            }
+
+                            is FoodMenuState.ErrorGetCategory -> {
+                                Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                            }
+
+                            else -> {}
+                        }
                     }
                 }
             }
         }
+    }
+
+    private fun hideViewState() = with(binding){
+        rvFoods.isVisible = false
+        pbLoader.isVisible = false
     }
 
     private fun addChip(title: String, chipGroup: ChipGroup) {
@@ -86,11 +81,17 @@ class FoodMenuFragment : BaseFragment<FragmentFoodMenuBinding>(FragmentFoodMenuB
         chipGroup.addView(chip, chipGroup.childCount - 1)
     }
 
+    override fun setAdapters() {
+        super.setAdapters()
+        setBanner()
+        binding.rvFoods.adapter = foodAdapter
+    }
+
     private fun setBanner() {
         binding.rvBanner.adapter = bannerAdapter
         bannerAdapter.itemList = listOf(
-            ru.topbun.gosporttest.R.drawable.banner0,
-            ru.topbun.gosporttest.R.drawable.banner1
+           R.drawable.banner0,
+           R.drawable.banner1
         )
     }
 

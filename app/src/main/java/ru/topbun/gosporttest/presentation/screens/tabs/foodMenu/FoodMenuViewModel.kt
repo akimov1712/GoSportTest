@@ -8,17 +8,34 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.topbun.gosporttest.domain.RequestResult
-import ru.topbun.gosporttest.domain.entities.CategoryEntity
 import ru.topbun.gosporttest.domain.useCases.GetCategoryListUseCase
+import ru.topbun.gosporttest.domain.useCases.GetFoodListUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class FoodMenuViewModel @Inject constructor(
-    private val getCategoryListUseCase: GetCategoryListUseCase
+    private val getCategoryListUseCase: GetCategoryListUseCase,
+    private val getFoodListUseCase: GetFoodListUseCase
 ): ViewModel() {
 
     private val _state = MutableStateFlow<FoodMenuState>(FoodMenuState.Initial)
     val state get() = _state.asStateFlow()
+
+    private fun getFoodList() = viewModelScope.launch {
+        getFoodListUseCase().collect{
+            Log.d("FFFT", "вью модель")
+            when(it){
+                is RequestResult.Error<*> -> {
+                    Log.d("FFFT", "вью модель ошибка")
+                    _state.emit(FoodMenuState.ErrorGetFoods(it.message))
+                }
+                is RequestResult.Success -> {
+                    Log.d("FFFT", "вью модель удачно")
+                    _state.emit(FoodMenuState.ResultFoods(it.data))
+                }
+            }
+        }
+    }
 
     private fun getCategoryList() = viewModelScope.launch {
         getCategoryListUseCase().collect{
@@ -34,6 +51,7 @@ class FoodMenuViewModel @Inject constructor(
     }
 
     init {
+        getFoodList()
         getCategoryList()
     }
 }

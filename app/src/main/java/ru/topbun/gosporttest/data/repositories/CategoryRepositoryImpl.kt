@@ -69,6 +69,7 @@ class CategoryRepositoryImpl @Inject constructor(
 
     private suspend fun saveNetResponseToCache(data: List<CategoryDTO>){
         val foodDboList = data.map { foods -> foods.toDBO() }
+        dao.deleteCategory()
         dao.addCategoryList(foodDboList)
     }
 

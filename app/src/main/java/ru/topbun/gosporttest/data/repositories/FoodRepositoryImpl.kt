@@ -1,11 +1,8 @@
 package ru.topbun.gosporttest.data.repositories
 
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import ru.topbun.gosporttest.data.RequestResponseMergeStrategy
@@ -24,19 +21,14 @@ class FoodRepositoryImpl @Inject constructor(
     private val mergeStrategy: RequestResponseMergeStrategy<List<FoodEntity>>
 ): FoodRepository {
 
-    private val flowResultFood = MutableSharedFlow<RequestResult<List<FoodEntity>>>(1, 10, BufferOverflow.DROP_OLDEST)
-
     override suspend fun getFoodList(): Flow<RequestResult<List<FoodEntity>>> {
         val cachedData = getFoodFromDatabase()
         val remoteData = getFoodFromServer()
-        cachedData.combine(remoteData, mergeStrategy::merge).collect(flowResultFood::emit)
-        return flowResultFood
+        return cachedData.combine(remoteData, mergeStrategy::merge)
     }
 
     override suspend fun getFoodCategory(category: String): Flow<RequestResult<List<FoodEntity>>> {
-        val remoteData = getFoodCategoryFromServer().last()
-        flowResultFood.emit(remoteData)
-        return flowResultFood
+        return getFoodCategoryFromServer()
     }
 
     private suspend fun getFoodFromDatabase(): Flow<RequestResult<List<FoodEntity>>> {
