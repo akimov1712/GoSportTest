@@ -14,8 +14,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_bag" />
-                            <entry key="sourceFile" value="C:\Users\User\Desktop\Корзина.svg" />
+                            <entry key="outputName" value="ic_qr_code" />
+                            <entry key="sourceFile" value="C:\Users\User\Desktop\qr-code (1) 1.svg" />
                           </map>
                         </option>
                       </PersistentState>

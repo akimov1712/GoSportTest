@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.zip.Inflater
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
-open class BaseFragment<VB: ViewBinding>(
+abstract class BaseFragment<VB: ViewBinding>(
     private val inflate: Inflate<VB>
-): Fragment() {
+) : Fragment() {
 
     private var _binding: VB? = null
     val binding get() = _binding ?: throw RuntimeException("ViewBinding == null")
@@ -21,7 +22,7 @@ open class BaseFragment<VB: ViewBinding>(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = inflate(inflater, container, false)
         return binding.root
     }
@@ -43,7 +44,7 @@ open class BaseFragment<VB: ViewBinding>(
     open fun observeViewModel(){}
 
     override fun onDestroyView() {
-        _binding = null
         super.onDestroyView()
+        _binding = null
     }
 }
