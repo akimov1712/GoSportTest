@@ -26,16 +26,12 @@ class FoodMenuViewModel @Inject constructor(
 
     fun getFoodList() = viewModelScope.launch {
         _state.emit(FoodMenuState.Loading)
-        Log.d("FFFT", "перед коллект")
         getFoodListUseCase().collect{
-            Log.d("FFFT", "после коллект")
             when(it){
                 is RequestResult.Error<*> -> {
-                    Log.d("FFFT", "ошибка")
                     _state.emit(FoodMenuState.ErrorGetFoods(it.message))
                 }
                 is RequestResult.Success -> {
-                    Log.d("FFFT", "пришло")
                     _state.emit(FoodMenuState.ResultFoods(it.data))
                 }
             }
