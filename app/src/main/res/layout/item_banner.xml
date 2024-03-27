@@ -7,4 +7,4 @@
     android:layout_marginHorizontal="8dp"
     tools:src="@drawable/banner0"
     android:clipToOutline="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto" />
+    android:backgroundTint="@color/app_white"/>

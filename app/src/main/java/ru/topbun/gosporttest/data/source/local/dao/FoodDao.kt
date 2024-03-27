@@ -17,6 +17,6 @@ interface FoodDao {
     suspend fun deleteFood()
 
     @Query("SELECT * FROM food")
-    fun getFoodList(): Flow<List<FoodDBO>>
+    suspend fun getFoodList(): List<FoodDBO>
 
 }

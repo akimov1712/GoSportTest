@@ -42,6 +42,9 @@ class RequestResponseMergeStrategy<E> @Inject constructor(): MergeStrategy<E> {
         cache: RequestResult.Success<E>,
         server: RequestResult.Error<*>
     ): RequestResult<E> {
+        if (cache.data is List<*> && cache.data.isEmpty()){
+            return RequestResult.Error("Нет интернет соединения")
+        }
         return RequestResult.Success(cache.data)
     }
 

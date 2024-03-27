@@ -3,6 +3,7 @@ package ru.topbun.gosporttest.data.repositories
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import ru.topbun.gosporttest.data.RequestResponseMergeStrategy
@@ -22,26 +23,23 @@ class FoodRepositoryImpl @Inject constructor(
 ): FoodRepository {
 
     override suspend fun getFoodList(): Flow<RequestResult<List<FoodEntity>>> {
-        val cachedData = getFoodFromDatabase()
         val remoteData = getFoodFromServer()
+        val cachedData = getFoodFromDatabase()
         return cachedData.combine(remoteData, mergeStrategy::merge)
     }
 
     override suspend fun getFoodCategory(category: String): Flow<RequestResult<List<FoodEntity>>> {
-        return getFoodCategoryFromServer()
+        return getFoodCategoryFromServer(category)
     }
 
     private suspend fun getFoodFromDatabase(): Flow<RequestResult<List<FoodEntity>>> {
-        val data = dao.getFoodList().map { foods ->
-            foods.map { it.toEntity() }
-        }.map {
-            RequestResult.Success(it)
-        }
-        return data
+        val data = dao.getFoodList().map { it.toEntity() }
+        val requestResultData = RequestResult.Success(data)
+        return flowOf<RequestResult<List<FoodEntity>>>(requestResultData)
     }
 
-    private suspend fun getFoodCategoryFromServer(): Flow<RequestResult<List<FoodEntity>>>{
-        return flow{ emit(foodApi.getFoodList()) }
+    private suspend fun getFoodCategoryFromServer(category: String): Flow<RequestResult<List<FoodEntity>>>{
+        return flow{ emit(foodApi.getFoodCategory(category)) }
             .onEach { result ->
                 processRecieveDataFromServer(result)
             }
@@ -75,6 +73,7 @@ class FoodRepositoryImpl @Inject constructor(
 
     private suspend fun saveNetResponseToCache(data: List<FoodDTO>){
         val foodDboList = data.map { foods -> foods.toDBO() }
+        dao.deleteFood()
         dao.addFoodList(foodDboList)
     }
 }

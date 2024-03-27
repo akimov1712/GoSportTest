@@ -13,7 +13,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.topbun.gosporttest.R
 import ru.topbun.gosporttest.databinding.FragmentFoodMenuBinding
-import ru.topbun.gosporttest.domain.entities.FoodEntity
 import ru.topbun.gosporttest.presentation.base.BaseFragment
 import ru.topbun.gosporttest.presentation.screens.tabs.foodMenu.adapters.bannerAdapter.BannerAdapter
 import ru.topbun.gosporttest.presentation.screens.tabs.foodMenu.adapters.foods.FoodsAdapter
@@ -26,15 +25,17 @@ class FoodMenuFragment : BaseFragment<FragmentFoodMenuBinding>(FragmentFoodMenuB
     private val bannerAdapter by lazy { BannerAdapter() }
     private val foodAdapter by lazy { FoodsAdapter() }
 
+    private var choiceCategory: String? = null
+
     override fun observeViewModel() {
         super.observeViewModel()
         with(binding){
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.RESUMED) {
                     viewModel.state.collect {
-                        hideViewState()
                         when (it) {
                             is FoodMenuState.Loading -> {
+                                hideViewState()
                                 pbLoader.visibility = View.VISIBLE
                             }
 
@@ -47,7 +48,15 @@ class FoodMenuFragment : BaseFragment<FragmentFoodMenuBinding>(FragmentFoodMenuB
                                 }
                             }
 
+                            is FoodMenuState.ErrorGetFoods -> {
+                                hideViewState()
+                                tvError.text = it.message
+                                layoutError.visibility = View.VISIBLE
+
+                            }
+
                             is FoodMenuState.ResultFoods -> {
+                                hideViewState()
                                 rvFoods.visibility = View.VISIBLE
                                 foodAdapter.submitList(it.foods)
                             }
@@ -64,9 +73,27 @@ class FoodMenuFragment : BaseFragment<FragmentFoodMenuBinding>(FragmentFoodMenuB
         }
     }
 
+    override fun setListenersInView() {
+        super.setListenersInView()
+        with(binding){
+            btnError.setOnClickListener {
+                choiceCategory?.let { viewModel.getFoodListCategory(it) } ?: viewModel.getFoodList()
+            }
+            chipGroupCategory.setOnCheckedStateChangeListener { group, checkedIds ->
+                val checkedId = chipGroupCategory.checkedChipId
+                if (checkedId == View.NO_ID) {
+                    choiceCategory = null
+                    viewModel.getFoodList()
+                }
+            }
+
+        }
+    }
+
     private fun hideViewState() = with(binding){
         rvFoods.isVisible = false
         pbLoader.isVisible = false
+        layoutError.isVisible = false
     }
 
     private fun addChip(title: String, chipGroup: ChipGroup) {
@@ -76,6 +103,9 @@ class FoodMenuFragment : BaseFragment<FragmentFoodMenuBinding>(FragmentFoodMenuB
             if (isChecked) {
                 chipGroup.removeView(chip)
                 chipGroup.addView(chip, 0)
+                val nameCategory = buttonView.text.toString()
+                choiceCategory = nameCategory
+                viewModel.getFoodListCategory(nameCategory)
             }
         }
         chipGroup.addView(chip, chipGroup.childCount - 1)
